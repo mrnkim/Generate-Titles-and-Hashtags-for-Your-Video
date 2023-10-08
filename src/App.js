@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+
+import { GetInspiration } from "./GetInspiration";
+import { PrepareUpload } from "./PrepareUpload";
+import { TailorContent } from "./TailorContent";
+import TwelveLabsApi from "./TwelveLabsApi";
 
 function App() {
+  const [video, setVideo] = useState({ data: null, isLoading: true });
+
+  useEffect(function fetchVideoOnMount() {
+    async function fetchVideo() {
+      const response = await TwelveLabsApi.getVideo();
+      setVideo({ data: response, isLoading: false });
+    }
+    fetchVideo();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Video Creators' Hub</h1>
+      <GetInspiration />
+      <PrepareUpload />
+      <TailorContent />
     </div>
   );
 }
