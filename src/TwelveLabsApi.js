@@ -52,26 +52,11 @@ class TwelveLabsApi {
     }
   }
 
-  /** Deletes an index */
-  static async deleteIndex(indexId) {
-    const config = {
-      method: "DELETE",
-      url: `${API_URL}/indexes/${indexId}`,
-      headers: this.headers,
-    };
-    try {
-      const response = await axios.request(config);
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   /** Get all videos of an index */
-  static async getVideos(index_id) {
+  static async getFirstVideo(index_id) {
     const config = {
       method: "GET",
-      params: { page_limit: "50" },
+      params: { page_limit: "1" },
       url: `${API_URL}/indexes/${index_id}/videos`,
       headers: this.headers,
     };
@@ -93,31 +78,6 @@ class TwelveLabsApi {
         ...this.headers,
         "Content-Type":
           "multipart/form-data; boundary=---011000010111000001101001",
-      },
-    };
-
-    try {
-      const response = await axios.request(config);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  /** Search videos with a given query */
-  static async searchVideo(indexId, query) {
-    const config = {
-      method: "POST",
-      url: `${API_URL}/search`,
-      headers: {
-        ...this.headers,
-        " accept": "application/json",
-        "Content-Type": "application/json",
-      },
-      data: {
-        index_id: `${indexId}`,
-        search_options: ["visual", "conversation", "text_in_video", "logo"],
-        query: { text: `${query}` },
       },
     };
 
@@ -171,21 +131,6 @@ class TwelveLabsApi {
     } catch (error) {
       console.error(`Error: ${error}`);
       console.error(`Error response: ${error.response.data}`);
-    }
-  }
-
-  /** Deletes a video */
-  static async deleteVideo(indexId, videoId) {
-    const config = {
-      method: "DELETE",
-      url: `${API_URL}/indexes/${indexId}/videos/${videoId}`,
-      headers: this.headers,
-    };
-    try {
-      const response = await axios.request(config);
-      return response.status;
-    } catch (error) {
-      console.error(error);
     }
   }
 }
