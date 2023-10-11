@@ -1,29 +1,32 @@
 import React from "react";
 
 export function InputForm({
-  summaryPrompt,
-  setSummaryPrompt,
-  chapterPrompt,
-  setChapterPrompt,
-  highlightPrompt,
-  setHighlightPrompt,
+  field1Prompt,
+  setField1Prompt,
+  field2Prompt,
+  setField2Prompt,
+  field3Prompt,
+  setField3Prompt,
+  field1,
+  field2,
+  field3,
 }) {
   function handleCheck(promptType) {
     switch (promptType) {
-      case "summary":
-        setSummaryPrompt((prevState) => ({
+      case field1:
+        setField1Prompt((prevState) => ({
           ...prevState,
           isChecked: !prevState.isChecked,
         }));
         break;
-      case "chapter":
-        setChapterPrompt((prevState) => ({
+      case field2:
+        setField2Prompt((prevState) => ({
           ...prevState,
           isChecked: !prevState.isChecked,
         }));
         break;
-      case "highlight":
-        setHighlightPrompt((prevState) => ({
+      case field3:
+        setField3Prompt((prevState) => ({
           ...prevState,
           isChecked: !prevState.isChecked,
         }));
@@ -36,20 +39,20 @@ export function InputForm({
   function handleChange(event, promptType) {
     const inputValue = event.target.value;
     switch (promptType) {
-      case "summary":
-        setSummaryPrompt((prevState) => ({
+      case field1:
+        setField1Prompt((prevState) => ({
           ...prevState,
           prompt: inputValue,
         }));
         break;
-      case "chapter":
-        setChapterPrompt((prevState) => ({
+      case field2:
+        setField2Prompt((prevState) => ({
           ...prevState,
           prompt: inputValue,
         }));
         break;
-      case "highlight":
-        setHighlightPrompt((prevState) => ({
+      case field3:
+        setField3Prompt((prevState) => ({
           ...prevState,
           prompt: inputValue,
         }));
@@ -64,56 +67,56 @@ export function InputForm({
       <div>
         <input
           type="checkbox"
-          id="summary"
-          name="summary"
-          checked={summaryPrompt.isChecked}
-          onChange={() => handleCheck("summary")}
+          id={field1}
+          name={field1}
+          checked={field1Prompt.isChecked}
+          onChange={() => handleCheck( field1 )}
         />
-        <label htmlFor="summary">Summary</label>
+        <label htmlFor={field1}>{field1}</label>
         <input
           type="text"
-          id="summaryPrompt"
-          name="summaryPrompt"
-          value={summaryPrompt.prompt}
-          disabled={!summaryPrompt.isChecked}
-          onChange={(e) => handleChange(e, "summary")}
+          id={`${field1}Prompt`}
+          name={`${field1}Prompt`}
+          value={field1Prompt.prompt}
+          disabled={!field1Prompt.isChecked}
+          onChange={(e) => handleChange(e,  field1 )}
         ></input>
       </div>
 
       <div>
         <input
           type="checkbox"
-          id="chapter"
-          name="chapter"
-          checked={chapterPrompt.isChecked}
-          onChange={() => handleCheck("chapter")}
+          id={field2}
+          name={field2}
+          checked={field2Prompt.isChecked}
+          onChange={() => handleCheck( field2 )}
         />
-        <label htmlFor="chapter">Chapter</label>
+        <label htmlFor={field2}>{field2}</label>
         <input
           type="text"
-          id="chapterPrompt"
-          name="chapterPrompt"
-          value={chapterPrompt.prompt}
-          disabled={!chapterPrompt.isChecked}
-          onChange={(e) => handleChange(e, "chapter")}
+          id={`${field2}Prompt`}
+          name={`${field2}Prompt`}
+          value={field2Prompt.prompt}
+          disabled={!field2Prompt.isChecked}
+          onChange={(e) => handleChange(e,  field2 )}
         ></input>
       </div>
       <div>
         <input
           type="checkbox"
-          id="highlight"
-          name="highlight"
-          checked={highlightPrompt.isChecked}
-          onChange={() => handleCheck("highlight")}
+          id={field3}
+          name={field3}
+          checked={field3Prompt.isChecked}
+          onChange={() => handleCheck( field3 )}
         />
-        <label htmlFor="highlight">Highlight</label>
+        <label htmlFor={field3}>{field3}</label>
         <input
           type="text"
-          id="highlightPrompt"
-          name="highlightPrompt"
-          value={highlightPrompt.prompt}
-          disabled={!highlightPrompt.isChecked}
-          onChange={(e) => handleChange(e, "highlight")}
+          id={`${field3}Prompt`}
+          name={`${field3}Prompt`}
+          value={field3Prompt.prompt}
+          disabled={!field3Prompt.isChecked}
+          onChange={(e) => handleChange(e,  field3 )}
         ></input>
       </div>
 

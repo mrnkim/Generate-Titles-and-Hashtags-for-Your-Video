@@ -1,6 +1,8 @@
 import { React, useState } from "react";
 import { Video } from "./Video";
 import { InputForm } from "./InputForm";
+import { VideoUrlUploadForm } from "./VideoUrlUploadForm";
+import "./GetInspiration.css";
 
 export function GetInspiration({ video }) {
   const [summaryPrompt, setSummaryPrompt] = useState({
@@ -15,21 +17,24 @@ export function GetInspiration({ video }) {
     isChecked: true,
     prompt: "",
   });
-  console.log("🚀 > GetInspiration > summaryPrompt=", summaryPrompt);
-  console.log("🚀 > GetInspiration > chapterPrompt=", chapterPrompt)
-  console.log("🚀 > GetInspiration > highlightPrompt=", highlightPrompt)
 
   return (
-    <div>
+    <div className="getInspiration">
       <h2>1. Get Inspiration</h2>
-      {video.data ? <Video video={video} /> : <p>Please Upload a video</p>}
+      <div>
+        <VideoUrlUploadForm />
+        {video.data ? <Video video={video} /> : <p>Please Upload a video</p>}
+      </div>
       <InputForm
-        summaryPrompt={summaryPrompt}
-        setSummaryPrompt={setSummaryPrompt}
-        chapterPrompt={chapterPrompt}
-        setChapterPrompt={setChapterPrompt}
-        highlightPrompt={highlightPrompt}
-        setHighlightPrompt={setHighlightPrompt}
+        field1Prompt={summaryPrompt}
+        setField1Prompt={setSummaryPrompt}
+        field2Prompt={chapterPrompt}
+        setField2Prompt={setChapterPrompt}
+        field3Prompt={highlightPrompt}
+        setField3Prompt={setHighlightPrompt}
+        field1={"summary"}
+        field2={"chapter"}
+        field3={"highlight"}
       />
     </div>
   );
