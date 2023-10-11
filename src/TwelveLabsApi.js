@@ -9,7 +9,6 @@ const API_KEY = process.env.REACT_APP_API_KEY;
  *
  */
 class TwelveLabsApi {
-  /** Declare the `headers` object containing your API key */
   static headers = {
     "x-api-key": API_KEY,
   };

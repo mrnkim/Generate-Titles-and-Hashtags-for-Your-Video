@@ -2,8 +2,6 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 import { GetInspiration } from "./GetInspiration";
-import { PrepareUpload } from "./PrepareUpload";
-import { TailorContent } from "./TailorContent";
 import TwelveLabsApi from "./TwelveLabsApi";
 
 function App() {
@@ -26,14 +24,12 @@ function App() {
 
   return (
     <div>
-      <h1>Video Creators' Hub</h1>
+      <h1>Get Inspiration</h1>
       {video.isLoading ? (
         <p>Loading...</p>
       ) : (
         <>
           <GetInspiration video={video} />
-          <PrepareUpload />
-          <TailorContent />
         </>
       )}
     </div>

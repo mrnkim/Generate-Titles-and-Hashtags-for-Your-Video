@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 
 export function Video({ video }) {
   return (
-    <div>
+    <div className="video">
       <ReactPlayer
         url={video.data.hls.video_url}
         controls
