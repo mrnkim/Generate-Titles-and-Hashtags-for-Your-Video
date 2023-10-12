@@ -63,15 +63,45 @@ export function InputForm({
     }
   }
 
-  function handleClick() {
-    if (field1Prompt.isChecked && field1Prompt.prompt.length < 1) {
-      alert("Please type something for " + field1);
+  function handleClick(event) {
+    event.preventDefault();
+
+    const field1Data = {};
+    const field2Data = {};
+    const field3Data = {};
+
+    if (field1Prompt.isChecked) {
+      if (field1Prompt.prompt.length > 0) {
+        field1Data["user_prompt"] = field1Prompt.prompt;
+      }
+      field1Data["type"] = field1;
     }
-    if (field2Prompt.isChecked && field2Prompt.prompt.length < 1) {
-      alert("Please type something for " + field2);
+
+    if (field2Prompt.isChecked) {
+      if (field2Prompt.prompt.length > 0) {
+        field2Data["user_prompt"] = field2Prompt.prompt;
+      }
+      field2Data["type"] = field2;
     }
-    if (field3Prompt.isChecked && field3Prompt.prompt.length < 1) {
-      alert("Please type something for " + field3);
+
+    if (field3Prompt.isChecked) {
+      if (field3Prompt.prompt.length > 0) {
+        field3Data["user_prompt"] = field3Prompt.prompt;
+      }
+      field3Data["type"] = field3;
+    }
+
+    // Make the summary API call
+    if (field1Data["type"]) {
+      const summaryResponse = generate(field1Data);
+    }
+    // Make the chapter API call
+    if (field2Data["type"]) {
+      const chapterResponse = generate(field2Data);
+    }
+    // Make the highlight API call
+    if (field3Data["type"]) {
+      const highlightResponse = generate(field3Data);
     }
   }
 

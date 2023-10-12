@@ -4,39 +4,41 @@ import { InputForm } from "./InputForm";
 import { VideoUrlUploadForm } from "./VideoUrlUploadForm";
 import { Result } from "./Result";
 import "./GetInspiration.css";
+import TwelveLabsApi from "./TwelveLabsApi";
 
 export function GetInspiration({ video }) {
+  console.log("🚀 > GetInspiration > video=", video);
   const [field1, field2, field3] = ["summary", "chapter", "highlight"];
   const [field1Prompt, setField1Prompt] = useState({
-    fieldName: { field1 },
+    fieldName: field1,
     isChecked: true,
     prompt: "",
   });
   const [field2Prompt, setField2Prompt] = useState({
-    fieldName: { field2 },
+    fieldName: field2,
     isChecked: true,
     prompt: "",
   });
   const [field3Prompt, setField3Prompt] = useState({
-    fieldName: { field3 },
+    fieldName: field3,
     isChecked: true,
     prompt: "",
   });
   const [field1Result, setField1Result] = useState({
-    fieldName: { field1 },
+    fieldName: field1,
     result: "",
   });
   const [field2Result, setField2Result] = useState({
-    fieldName: { field2 },
+    fieldName: field2,
     result: "",
   });
   const [highlightResult, setHighlightResult] = useState({
-    fieldName: { field3 },
+    fieldName: field3,
     result: "",
   });
 
-  function generate() {
-    // Make API calls one by one
+  function generate(data) {
+    TwelveLabsApi.generateSummary(data, video.data._id);
   }
 
   return (
@@ -56,7 +58,7 @@ export function GetInspiration({ video }) {
           field1={field1}
           field2={field2}
           field3={field3}
-          generate
+          generate={generate}
         />
       </div>
       <Result

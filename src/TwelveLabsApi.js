@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const GENERATE_API_URL = process.env.REACT_APP_GENERATE_API_URL;
+const GENERATE_API_KEY = process.env.REACT_APP_GENERATE_API_KEY;
 const API_URL = process.env.REACT_APP_API_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -11,6 +13,10 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 class TwelveLabsApi {
   static headers = {
     "x-api-key": API_KEY,
+  };
+
+  static headersGenerate = {
+    "x-api-key": GENERATE_API_KEY,
   };
 
   /** Get indexes of a user */
@@ -65,6 +71,27 @@ class TwelveLabsApi {
       return response.data.data;
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  /** Call generate API */
+  static async generateSummary(data, videoId) {
+    data["video_id"] = videoId;
+
+    const config = {
+      method: "POST",
+      url: `${GENERATE_API_URL}/summarize`,
+      headers: this.headersGenerate,
+      data: data,
+    };
+    console.log("🚀 > TwelveLabsApi > generateSummary > config=", config);
+
+    try {
+      const response = await axios.request(config);
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+      return error.message;
     }
   }
 
