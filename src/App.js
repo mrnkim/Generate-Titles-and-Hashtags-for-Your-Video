@@ -12,7 +12,6 @@ function App() {
     async function fetchVideo() {
       try {
         const response = await TwelveLabsApi.getFirstVideo(INDEX_ID);
-        console.log("🚀 > fetchVideo > response=", response)
         if (response && response.length > 0) {
           const videoId = response[0]["_id"];
           const videoDetail = await TwelveLabsApi.getVideo(INDEX_ID, videoId);

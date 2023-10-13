@@ -7,6 +7,7 @@ import "./GetInspiration.css";
 import TwelveLabsApi from "./TwelveLabsApi";
 
 export function GetInspiration({ video }) {
+  const [loading, setLoading] = useState(false);
   const [field1, field2, field3] = ["summary", "chapter", "highlight"];
   const [field1Prompt, setField1Prompt] = useState({
     fieldName: field1,
@@ -27,12 +28,10 @@ export function GetInspiration({ video }) {
     fieldName: field1,
     result: "",
   });
-  console.log("🚀 > GetInspiration > field1Result=", field1Result);
   const [field2Result, setField2Result] = useState({
     fieldName: field2,
     result: "",
   });
-  console.log("🚀 > GetInspiration > field2Result=", field2Result);
   const [field3Result, setField3Result] = useState({
     fieldName: field3,
     result: "",
@@ -63,18 +62,22 @@ export function GetInspiration({ video }) {
           setField1Result={setField1Result}
           setField2Result={setField2Result}
           setField3Result={setField3Result}
+          setLoading={setLoading}
+          loading={loading}
         />
       </div>
-      {(field1Result.result.length > 0 ||
-        field2Result.result.length > 0 ||
-        field3Result.result.length > 0) && (
-        <Result
-          video={video}
-          field1Result={field1Result}
-          field2Result={field2Result}
-          field3Result={field3Result}
-        />
-      )}
+      {loading && <p>Loading...</p>}
+      {!loading &&
+        (field1Result.result.length > 0 ||
+          field2Result.result.length > 0 ||
+          field3Result.result.length > 0) && (
+          <Result
+            video={video}
+            field1Result={field1Result}
+            field2Result={field2Result}
+            field3Result={field3Result}
+          />
+        )}
     </div>
   );
 }

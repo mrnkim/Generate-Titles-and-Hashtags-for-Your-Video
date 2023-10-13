@@ -1,4 +1,4 @@
-import React from "react";
+import { React } from "react";
 
 export function InputForm({
   field1Prompt,
@@ -14,6 +14,8 @@ export function InputForm({
   setField1Result,
   setField2Result,
   setField3Result,
+  setLoading,
+  loading,
 }) {
   function handleCheck(promptType) {
     switch (promptType) {
@@ -38,6 +40,7 @@ export function InputForm({
       default:
         break;
     }
+    setLoading(false);
   }
 
   function handleChange(event, promptType) {
@@ -76,50 +79,54 @@ export function InputForm({
 
     if (field1Prompt.isChecked) {
       if (field1Prompt.prompt.length > 0) {
-        field1Data["user_prompt"] = field1Prompt.prompt;
+        field1Data["prompt"] = field1Prompt.prompt;
       }
       field1Data["type"] = field1;
     }
 
     if (field2Prompt.isChecked) {
       if (field2Prompt.prompt.length > 0) {
-        field2Data["user_prompt"] = field2Prompt.prompt;
+        field2Data["prompt"] = field2Prompt.prompt;
       }
       field2Data["type"] = field2;
     }
 
     if (field3Prompt.isChecked) {
       if (field3Prompt.prompt.length > 0) {
-        field3Data["user_prompt"] = field3Prompt.prompt;
+        field3Data["prompt"] = field3Prompt.prompt;
       }
       field3Data["type"] = field3;
     }
 
-    // Make the summary API call
-    if (field1Data["type"]) {
-      const summaryResponse = await generate(field1Data);
-      setField1Result((prevField1Result) => ({
-        ...prevField1Result,
-        result: summaryResponse.summary,
-      }));
-    }
-    // Make the chapter API call
-    if (field2Data["type"]) {
-      const chapterResponse = await generate(field2Data);
-      console.log("🚀 > handleClick > chapterResponse=", chapterResponse);
-      setField2Result((prevField2Result) => ({
-        ...prevField2Result,
-        result: chapterResponse.chapters,
-      }));
-    }
-    // Make the highlight API call
-    if (field3Data["type"]) {
-      const highlightResponse = await generate(field3Data);
-      console.log("🚀 > handleClick > highlightResponse=", highlightResponse);
-      setField3Result((prevField3Result) => ({
-        ...prevField3Result,
-        result: highlightResponse.highlights,
-      }));
+    setLoading(true);
+
+    try {
+      // Make the summary API call
+      if (field1Data["type"]) {
+        const summaryResponse = await generate(field1Data);
+        setField1Result((prevField1Result) => ({
+          ...prevField1Result,
+          result: summaryResponse.summary,
+        }));
+      }
+      // Make the chapter API call
+      if (field2Data["type"]) {
+        const chapterResponse = await generate(field2Data);
+        setField2Result((prevField2Result) => ({
+          ...prevField2Result,
+          result: chapterResponse.chapters,
+        }));
+      }
+      // Make the highlight API call
+      if (field3Data["type"]) {
+        const highlightResponse = await generate(field3Data);
+        setField3Result((prevField3Result) => ({
+          ...prevField3Result,
+          result: highlightResponse.highlights,
+        }));
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -158,7 +165,6 @@ export function InputForm({
           onChange={(e) => handleChange(e, field1)}
         ></input>
       </div>
-
       <div>
         <input
           type="checkbox"
@@ -177,7 +183,6 @@ export function InputForm({
           onChange={(e) => handleChange(e, field2)}
         ></input>
       </div>
-
       <div>
         <input
           type="checkbox"
@@ -196,8 +201,9 @@ export function InputForm({
           onChange={(e) => handleChange(e, field3)}
         ></input>
       </div>
-
-      <button onClick={handleClick}>Generate</button>
+      <button onClick={handleClick} disabled={loading}>
+        Generate
+      </button>{" "}
       <button onClick={reset}>Reset</button>
     </form>
   );
