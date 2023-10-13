@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 
-import { GetInspiration } from "./GetInspiration";
+import { PrepareUpload } from "./PrepareUpload";
 import TwelveLabsApi from "./TwelveLabsApi";
 
 function App() {
@@ -33,8 +33,8 @@ function App() {
 
   return (
     <div>
-      <h1>Get Inspiration</h1>
-      <GetInspiration video={video} />
+      <h1>Prepare Upload</h1>
+      <PrepareUpload video={video} />
     </div>
   );
 }

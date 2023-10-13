@@ -3,46 +3,37 @@ import { Video } from "./Video";
 import { InputForm } from "./InputForm";
 import { VideoUrlUploadForm } from "./VideoUrlUploadForm";
 import { Result } from "./Result";
-import "./GetInspiration.css";
+import "./PrepareUpload.css";
 import TwelveLabsApi from "./TwelveLabsApi";
 
-export function GetInspiration({ video }) {
+export function PrepareUpload({ video }) {
   const [loading, setLoading] = useState(false);
-  const [field1, field2, field3] = ["summary", "chapter", "highlight"];
+  console.log("🚀 > PrepareUpload > loading=", loading);
+  const [field1, field2, field3] = ["topic", "title", "hashtag"];
   const [field1Prompt, setField1Prompt] = useState({
     fieldName: field1,
     isChecked: true,
-    prompt: "",
   });
   const [field2Prompt, setField2Prompt] = useState({
     fieldName: field2,
     isChecked: true,
-    prompt: "",
   });
   const [field3Prompt, setField3Prompt] = useState({
     fieldName: field3,
     isChecked: true,
-    prompt: "",
   });
-  const [field1Result, setField1Result] = useState({
-    fieldName: field1,
+  const [result, setResult] = useState({
+    types: [],
     result: "",
   });
-  const [field2Result, setField2Result] = useState({
-    fieldName: field2,
-    result: "",
-  });
-  const [field3Result, setField3Result] = useState({
-    fieldName: field3,
-    result: "",
-  });
+  console.log("🚀 > PrepareUpload > result=", result);
 
   function generate(data) {
-    return TwelveLabsApi.generateSummary(data, video.data._id);
+    return TwelveLabsApi.generateGist(data, video.data._id);
   }
 
   return (
-    <div className="getInspiration">
+    <div className="prepareUpload">
       <div className="videoUrlUploadForm">
         <VideoUrlUploadForm />
       </div>
@@ -59,25 +50,14 @@ export function GetInspiration({ video }) {
           field2={field2}
           field3={field3}
           generate={generate}
-          setField1Result={setField1Result}
-          setField2Result={setField2Result}
-          setField3Result={setField3Result}
+          result={result}
+          setResult={setResult}
           setLoading={setLoading}
           loading={loading}
         />
       </div>
       {loading && <p>Loading...</p>}
-      {!loading &&
-        (field1Result.result.length > 0 ||
-          field2Result.result.length > 0 ||
-          field3Result.result.length > 0) && (
-          <Result
-            video={video}
-            field1Result={field1Result}
-            field2Result={field2Result}
-            field3Result={field3Result}
-          />
-        )}
+      {!loading && <Result result={result} />}
     </div>
   );
 }

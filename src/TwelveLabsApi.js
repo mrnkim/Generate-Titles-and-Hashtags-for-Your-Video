@@ -10,6 +10,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
  */
 class TwelveLabsApi {
   static headers = {
+    "Content-Type": "application/json",
     "x-api-key": API_KEY,
   };
 
@@ -81,6 +82,26 @@ class TwelveLabsApi {
 
     try {
       const response = await axios.request(config);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /** Call gist API */
+  static async generateGist(data, videoId) {
+    data["video_id"] = videoId;
+
+    const config = {
+      method: "POST",
+      url: `${API_URL}/gist`,
+      headers: this.headers,
+      data: data,
+    };
+
+    try {
+      const response = await axios.request(config);
+      console.log("🚀 > TwelveLabsApi > generateGist > response=", response)
       return response.data;
     } catch (error) {
       console.error(error);
