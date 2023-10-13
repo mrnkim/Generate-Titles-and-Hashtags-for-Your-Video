@@ -10,10 +10,20 @@ function App() {
 
   useEffect(function fetchVideoOnMount() {
     async function fetchVideo() {
-      const response = await TwelveLabsApi.getFirstVideo(INDEX_ID);
-      const videoId = response[0]["_id"];
-      const videoDetail = await TwelveLabsApi.getVideo(INDEX_ID, videoId);
-      setVideo({ data: videoDetail, isLoading: false });
+      try {
+        const response = await TwelveLabsApi.getFirstVideo(INDEX_ID);
+        console.log("🚀 > fetchVideo > response=", response)
+        if (response && response.length > 0) {
+          const videoId = response[0]["_id"];
+          const videoDetail = await TwelveLabsApi.getVideo(INDEX_ID, videoId);
+          setVideo({ data: videoDetail, isLoading: false });
+        } else {
+          setVideo({ data: null, isLoading: false });
+        }
+      } catch (error) {
+        console.error("Error fetching video:", error);
+        setVideo({ data: null, isLoading: false });
+      }
     }
     fetchVideo();
   }, []);
@@ -25,13 +35,7 @@ function App() {
   return (
     <div>
       <h1>Get Inspiration</h1>
-      {video.isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <GetInspiration video={video} />
-        </>
-      )}
+      <GetInspiration video={video} />
     </div>
   );
 }

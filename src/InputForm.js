@@ -11,6 +11,9 @@ export function InputForm({
   field2,
   field3,
   generate,
+  setField1Result,
+  setField2Result,
+  setField3Result,
 }) {
   function handleCheck(promptType) {
     switch (promptType) {
@@ -63,7 +66,8 @@ export function InputForm({
     }
   }
 
-  function handleClick(event) {
+  async function handleClick(event) {
+    reset();
     event.preventDefault();
 
     const field1Data = {};
@@ -93,16 +97,45 @@ export function InputForm({
 
     // Make the summary API call
     if (field1Data["type"]) {
-      const summaryResponse = generate(field1Data);
+      const summaryResponse = await generate(field1Data);
+      setField1Result((prevField1Result) => ({
+        ...prevField1Result,
+        result: summaryResponse.summary,
+      }));
     }
     // Make the chapter API call
     if (field2Data["type"]) {
-      const chapterResponse = generate(field2Data);
+      const chapterResponse = await generate(field2Data);
+      console.log("🚀 > handleClick > chapterResponse=", chapterResponse);
+      setField2Result((prevField2Result) => ({
+        ...prevField2Result,
+        result: chapterResponse.chapters,
+      }));
     }
     // Make the highlight API call
     if (field3Data["type"]) {
-      const highlightResponse = generate(field3Data);
+      const highlightResponse = await generate(field3Data);
+      console.log("🚀 > handleClick > highlightResponse=", highlightResponse);
+      setField3Result((prevField3Result) => ({
+        ...prevField3Result,
+        result: highlightResponse.highlights,
+      }));
     }
+  }
+
+  function reset() {
+    setField1Result({
+      fieldName: field1,
+      result: "",
+    });
+    setField2Result({
+      fieldName: field2,
+      result: "",
+    });
+    setField3Result({
+      fieldName: field3,
+      result: "",
+    });
   }
 
   return (
@@ -165,6 +198,7 @@ export function InputForm({
       </div>
 
       <button onClick={handleClick}>Generate</button>
+      <button onClick={reset}>Reset</button>
     </form>
   );
 }

@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const GENERATE_API_URL = process.env.REACT_APP_GENERATE_API_URL;
-const GENERATE_API_KEY = process.env.REACT_APP_GENERATE_API_KEY;
 const API_URL = process.env.REACT_APP_API_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -13,10 +11,6 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 class TwelveLabsApi {
   static headers = {
     "x-api-key": API_KEY,
-  };
-
-  static headersGenerate = {
-    "x-api-key": GENERATE_API_KEY,
   };
 
   /** Get indexes of a user */
@@ -80,18 +74,18 @@ class TwelveLabsApi {
 
     const config = {
       method: "POST",
-      url: `${GENERATE_API_URL}/summarize`,
-      headers: this.headersGenerate,
+      url: `${API_URL}/summarize`,
+      headers: this.headers,
       data: data,
     };
     console.log("🚀 > TwelveLabsApi > generateSummary > config=", config);
 
     try {
       const response = await axios.request(config);
-      return response.data.data;
+      console.log("🚀 > TwelveLabsApi > generateSummary > response=", response);
+      return response.data;
     } catch (error) {
       console.error(error);
-      return error.message;
     }
   }
 
