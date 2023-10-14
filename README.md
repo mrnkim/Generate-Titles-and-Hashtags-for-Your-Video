@@ -43,7 +43,7 @@ You can count on this app to whip up a snazzy topic, a catchy title, and some tr
 
 1. Clone the current repo
    ```sh
-   git clone git@github.com:mrnkim/prepare-upload.git
+   git clone git@github.com:mrnkim/Generate-Titles-and-Hashtags-for-Your-Video.git
    ```
 2. Install and start the client
 
