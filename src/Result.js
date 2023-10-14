@@ -4,7 +4,7 @@ export function Result({ result }) {
   result = result.result;
   return (
     <div className="result">
-      <div className="resultTitle">Result</div>
+      <div className="resultTitle">Suggested titles/tags</div>
       {result.title && (
         <div className="resultSection">
           <h2>Title</h2>

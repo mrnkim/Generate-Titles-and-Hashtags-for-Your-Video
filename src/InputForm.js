@@ -92,7 +92,7 @@ export function InputForm({
 
   return (
     <div className="inputForm">
-      <div className="title">Choose templates</div>
+      <div className="title">What do you need?</div>
       <form className="form">
         <div className="checkboxes">
           <div className="checkbox-container">

@@ -31,14 +31,28 @@ export function PrepareUpload({ video }) {
     return TwelveLabsApi.generateGist(data, video.data._id);
   }
 
+  const vidTitleRaw = video?.data?.metadata.video_title;
+  const vidTitleClean = decodeAndCleanFilename(vidTitleRaw);
+
+  function decodeAndCleanFilename(filename) {
+    const decodedFilename = decodeURIComponent(filename);
+    const cleanedFilename = decodedFilename
+      .replace(/%20/g, " ")
+      .replace(/\([^)]*\)/g, "");
+    return cleanedFilename;
+  }
+
   return (
     <div className="prepareUpload">
-      <h1 className="appTitle">Prepare Upload</h1>
+      <h1 className="appTitle">Generate Titles and Hashtags for Your Video</h1>
       <div className="videoUrlUploadForm">
         <VideoUrlUploadForm />
       </div>
       <div className="videoAndInputForm">
         {video.data ? <Video video={video} /> : <p>Please Upload a video</p>}
+        {result.result ? (
+          <div className="videoTitle">{vidTitleClean}</div>
+        ) : null}{" "}
         <InputForm
           field1Prompt={field1Prompt}
           setField1Prompt={setField1Prompt}
