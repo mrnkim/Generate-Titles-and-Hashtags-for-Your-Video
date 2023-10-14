@@ -32,8 +32,7 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Prepare Upload</h1>
+    <div className="app">
       <PrepareUpload video={video} />
     </div>
   );

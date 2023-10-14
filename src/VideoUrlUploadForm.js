@@ -1,8 +1,13 @@
+import "./VideoUrlUploadForm.css";
+
 export function VideoUrlUploadForm() {
   return (
-    <div>
-      <input></input>
-      <button>Upload</button>
+    <div className="videoUrlUploadForm">
+      <div className="title">Upload video</div>
+      <form>
+        <input className="videoUrlUploadInput"></input>
+        <button className="videoUrlUploadButton">Upload</button>
+      </form>
     </div>
   );
 }

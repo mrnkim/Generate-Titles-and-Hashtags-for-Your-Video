@@ -1,4 +1,5 @@
 import { React } from "react";
+import "./InputForm.css";
 
 export function InputForm({
   field1Prompt,
@@ -90,40 +91,55 @@ export function InputForm({
   }
 
   return (
-    <form>
-      <div>
-        <input
-          type="checkbox"
-          id={field1}
-          name={field1}
-          checked={field1Prompt.isChecked}
-          onChange={() => handleCheck(field1)}
-        />
-        <label htmlFor={field1}>{field1}</label>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          id={field2}
-          name={field2}
-          checked={field2Prompt.isChecked}
-          onChange={() => handleCheck(field2)}
-        />
-        <label htmlFor={field2}>{field2}</label>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          id={field3}
-          name={field3}
-          checked={field3Prompt.isChecked}
-          onChange={() => handleCheck(field3)}
-        />
-        <label htmlFor={field3}>{field3}</label>
-      </div>
-      <button onClick={handleClick} disabled={loading}>
-        Generate
-      </button>{" "}
-    </form>
+    <div className="inputForm">
+      <div className="title">Choose templates</div>
+      <form className="form">
+        <div className="checkboxes">
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id={field1}
+              name={field1}
+              checked={field1Prompt.isChecked}
+              onChange={() => handleCheck(field1)}
+            />
+            <label className="label" htmlFor={field1}>
+              {field1}
+            </label>
+          </div>
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id={field2}
+              name={field2}
+              checked={field2Prompt.isChecked}
+              onChange={() => handleCheck(field2)}
+            />
+            <label className="label" htmlFor={field2}>
+              {field2}
+            </label>
+          </div>
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id={field3}
+              name={field3}
+              checked={field3Prompt.isChecked}
+              onChange={() => handleCheck(field3)}
+            />
+            <label className="label" htmlFor={field3}>
+              {field3}s
+            </label>
+          </div>
+          </div>
+          <button
+            className="generateButton"
+            onClick={handleClick}
+            disabled={loading}
+          >
+            Generate
+          </button>{" "}
+      </form>
+    </div>
   );
 }

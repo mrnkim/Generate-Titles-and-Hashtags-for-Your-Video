@@ -8,7 +8,6 @@ import TwelveLabsApi from "./TwelveLabsApi";
 
 export function PrepareUpload({ video }) {
   const [loading, setLoading] = useState(false);
-  console.log("🚀 > PrepareUpload > loading=", loading);
   const [field1, field2, field3] = ["topic", "title", "hashtag"];
   const [field1Prompt, setField1Prompt] = useState({
     fieldName: field1,
@@ -34,6 +33,7 @@ export function PrepareUpload({ video }) {
 
   return (
     <div className="prepareUpload">
+      <h1 className="appTitle">Prepare Upload</h1>
       <div className="videoUrlUploadForm">
         <VideoUrlUploadForm />
       </div>
@@ -57,7 +57,7 @@ export function PrepareUpload({ video }) {
         />
       </div>
       {loading && <p>Loading...</p>}
-      {!loading && <Result result={result} />}
+      {!loading && result.result && <Result result={result} />}
     </div>
   );
 }

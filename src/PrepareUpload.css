@@ -1,4 +1,11 @@
-.videoAndInputForm {
+.prepareUpload {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
+
+.appTitle {
+    font-size: 32px;
+    font-weight: 500;
+  }
