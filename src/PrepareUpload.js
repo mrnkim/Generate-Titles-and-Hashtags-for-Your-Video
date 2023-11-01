@@ -49,7 +49,11 @@ export function PrepareUpload({ video }) {
         <VideoUrlUploadForm />
       </div>
       <div className="videoAndInputForm">
-        {video.data ? <Video video={video} /> : <p>Please Upload a video</p>}
+        {video.data ? (
+          <Video video={video} />
+        ) : (
+          <p>There is no video in your index. Start uploading one!</p>
+        )}
         {result.result ? (
           <div className="videoTitle">{vidTitleClean}</div>
         ) : null}{" "}
