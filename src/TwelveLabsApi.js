@@ -101,7 +101,7 @@ class TwelveLabsApi {
 
     try {
       const response = await axios.request(config);
-      console.log("🚀 > TwelveLabsApi > generateGist > response=", response)
+      console.log("🚀 > TwelveLabsApi > generateGist > response=", response);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -146,22 +146,29 @@ class TwelveLabsApi {
     }
   }
 
-  /** Uploads a video with a given url */
-  static async uploadVideo(indexId, videoUrl) {
+  /** Uploads a video with a given file */
+  static async uploadVideo(indexId, videoFile) {
+    console.log("AT API!");
     try {
-      let formData = new FormData();
-      formData.append("index_id", indexId);
-      formData.append("language", "en");
-      formData.append("video_url", videoUrl);
+      const form = new FormData();
+      form.append("provide_transcription", "false");
+      form.append("language", "en");
+      form.append("disable_video_stream", "false");
+      form.append("index_id", indexId);
+      form.append("video_file", videoFile);
 
-      let config = {
+      console.log("🚀 > TwelveLabsApi > uploadVideo > form=", form.index_id);
+      console.log("🚀 > TwelveLabsApi > uploadVideo > form=", form.video_file);
+      const config = {
         method: "post",
         url: `${API_URL}/tasks`,
         headers: {
-          ...this.headers,
-          "Content-Type": "multipart/form-data",
+          accept: "application/json",
+          "x-api-key": "tlk_23AWW2R3X0AHQ82R2T2X10WX33WR",
+          "Content-Type":
+            "multipart/form-data; boundary=---011000010111000001101001",
         },
-        data: formData,
+        data: "[form]",
       };
 
       let resp = await axios(config);

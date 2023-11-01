@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="app">
-      <PrepareUpload video={video} />
+      <PrepareUpload video={video} index={INDEX_ID} />
     </div>
   );
 }
