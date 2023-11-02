@@ -2,21 +2,10 @@ import React from "react";
 import ReactPlayer from "react-player";
 import "./Video.css";
 
-export function Video({ video, start, end }) {
-
+export function Video({ url }) {
   return (
     <div className="video">
-      <ReactPlayer
-        className="react-player"
-        url={video?.data?.hls.video_url}
-        controls
-        config={{
-          hlsOptions: {
-            startPosition: start,
-            endPosition: end,
-          },
-        }}
-      />
+      <ReactPlayer className="react-player" url={url} controls />
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import { React, useState } from "react";
 import { Video } from "./Video";
 import { InputForm } from "./InputForm";
-import { VideoUrlUploadForm } from "./VideoUrlUploadForm";
+import { VideoFileUploadForm } from "./VideoFileUploadForm";
 import { Result } from "./Result";
 import "./PrepareUpload.css";
 import TwelveLabsApi from "./TwelveLabsApi";
 
-export function PrepareUpload({ video, index }) {
+export function PrepareUpload({ fetchVideo, video, index }) {
   const [loading, setLoading] = useState(false);
   const [field1, field2, field3] = ["topic", "title", "hashtag"];
   const [field1Prompt, setField1Prompt] = useState({
@@ -25,7 +25,8 @@ export function PrepareUpload({ video, index }) {
     types: [],
     result: "",
   });
-  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(false);
+  const [isFileUploading, setIsFileUploading] = useState(false);
 
   console.log("🚀 > PrepareUpload > result=", result);
 
@@ -47,37 +48,51 @@ export function PrepareUpload({ video, index }) {
   return (
     <div className="prepareUpload">
       <h1 className="appTitle">Generate Titles and Hashtags for Your Video</h1>
-      <div className="videoUrlUploadForm">
-        <VideoUrlUploadForm uploading={uploading} index={index} />
-      </div>
-      <div className="videoAndInputForm">
-        {video.data ? (
-          <Video video={video} />
-        ) : (
-          <p>There is no video in your index. Start uploading one!</p>
-        )}
-        {result.result ? (
-          <div className="videoTitle">{vidTitleClean}</div>
-        ) : null}{" "}
-        <InputForm
-          field1Prompt={field1Prompt}
-          setField1Prompt={setField1Prompt}
-          field2Prompt={field2Prompt}
-          setField2Prompt={setField2Prompt}
-          field3Prompt={field3Prompt}
-          setField3Prompt={setField3Prompt}
-          field1={field1}
-          field2={field2}
-          field3={field3}
-          generate={generate}
-          result={result}
-          setResult={setResult}
-          setLoading={setLoading}
-          loading={loading}
+      <div className="videoFileUploadForm">
+        <VideoFileUploadForm
+          setUploading={setSelectedFile}
+          index={index}
+          fetchVideo={fetchVideo}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+          isFileUploading={isFileUploading}
+          setIsFileUploading={setIsFileUploading}
         />
       </div>
+      <div className="videoAndInputForm">
+        {video.data && !selectedFile && (
+          <Video url={video.data.hls.video_url} />
+        )}
+        {!video.data && (
+          <p>There is no video in your index. Start uploading one!</p>
+        )}
+        {video.data && !selectedFile && result.result && (
+          <div className="videoTitle">{vidTitleClean}</div>
+        )}
+
+        {!selectedFile && (
+          <InputForm
+            field1Prompt={field1Prompt}
+            setField1Prompt={setField1Prompt}
+            field2Prompt={field2Prompt}
+            setField2Prompt={setField2Prompt}
+            field3Prompt={field3Prompt}
+            setField3Prompt={setField3Prompt}
+            field1={field1}
+            field2={field2}
+            field3={field3}
+            generate={generate}
+            result={result}
+            setResult={setResult}
+            setLoading={setLoading}
+            loading={loading}
+          />
+        )}
+      </div>
       {loading && <p>Loading...</p>}
-      {!loading && result.result && <Result result={result} />}
+      {!loading && result.result && !selectedFile && video.data && (
+        <Result result={result} />
+      )}
     </div>
   );
 }
