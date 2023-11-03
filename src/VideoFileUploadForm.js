@@ -24,7 +24,7 @@ export function VideoFileUploadForm({
   const [task, setTask] = useState(null);
   console.log("🚀 > VideoFileUploadForm > task=", task);
   const [isMonitoring, setIsMonitoring] = useState(false);
-  const [statusDisplayed, setStatusDisplayed] = useState(false);
+  console.log("🚀 > isMonitoring=", isMonitoring);
 
   /** Verify file type */
   function handleFileSelect(event) {
@@ -77,21 +77,6 @@ export function VideoFileUploadForm({
     }
   }
 
-  /** Monitor status of a task */
-  // async function monitorTask() {
-  //   while (isMonitoring) {
-  //     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  //     if (task.status === "ready" || task.status === "failed") {
-  //       setTask(null);
-  //       setTaskId(null);
-  //       setSelectedFile(null);
-  //       setIsMonitoring(false);
-  //     } else {
-  //       await sleep(10000);
-  //     }
-  //   }
-  // }
-
   useEffect(() => {
     const fetchData = async () => {
       if (taskId) {
@@ -107,19 +92,12 @@ export function VideoFileUploadForm({
 
         if (response.status === "ready" || response.status === "failed") {
           // If the status is "ready" and hasn't been displayed yet, set the flag
-
-          if (!statusDisplayed) {
-            setStatusDisplayed(true);
-
-            // Wait for 3 seconds and then fetch the video
-            setTimeout(() => {
-              fetchVideo();
-            }, 3000);
-          }
-          // Stop monitoring when the task is completed or failed
-          setSelectedFile(false);
+          fetchVideo();
+          setSelectedFile(null);
           setIsFileUploading(false);
           setIsMonitoring(false);
+
+          // Stop monitoring when the task is completed or failed
         } else {
           // Continue monitoring every 10 seconds
           setTimeout(checkStatus, 10000);
@@ -133,7 +111,7 @@ export function VideoFileUploadForm({
       // If not monitoring, fetch the task details initially
       fetchData();
     }
-  }, [taskId, isMonitoring, statusDisplayed]);
+  }, [taskId, isMonitoring]);
 
   return (
     <div className="videoFileUploadForm">
@@ -167,10 +145,9 @@ export function VideoFileUploadForm({
           {task.status}...
           {task.process === "indexing" &&
             Math.round(task.process.upload_percentage)}
-          
         </div>
       )}
-      {task && task.hls && (
+      {isMonitoring && task && task.hls && (
         <div className="taskVideo">
           <Video url={task.hls.video_url} />
         </div>

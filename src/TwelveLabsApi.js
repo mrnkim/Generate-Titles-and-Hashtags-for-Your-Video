@@ -147,22 +147,22 @@ class TwelveLabsApi {
   }
 
   /** Checks status of a task (e.g., video upload task) */
-  static async checkStatus(taskId) {
-    const config = {
-      method: "GET",
-      url: `${API_URL}/tasks/${taskId}`,
-      headers: {
-        ...this.headers,
-      },
-    };
+  // static async checkStatus(taskId) {
+  //   const config = {
+  //     method: "GET",
+  //     url: `${API_URL}/tasks/${taskId}`,
+  //     headers: {
+  //       ...this.headers,
+  //     },
+  //   };
 
-    try {
-      const response = await axios.request(config);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //   try {
+  //     const response = await axios.request(config);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   /** Uploads a video with a given file */
   static async uploadVideo(indexId, videoFile) {
