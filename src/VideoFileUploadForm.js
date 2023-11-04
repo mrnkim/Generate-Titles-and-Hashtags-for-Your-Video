@@ -92,12 +92,13 @@ export function VideoFileUploadForm({
 
     const checkStatus = async () => {
       const response = await getTaskDetails(taskId);
+      console.log("✨✨checkStatus runs!")
       setTask(response);
       if (response.status === "ready" || response.status === "failed") {
+        setIsMonitoring(false);
         setTaskId(null);
         setTask(null);
         setInputValue("");
-        setIsMonitoring(false);
         setSelectedFile(null);
         setIsFileUploading(false);
         fetchVideo();
