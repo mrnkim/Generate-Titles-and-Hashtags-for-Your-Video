@@ -50,7 +50,6 @@ export function PrepareUpload({ fetchVideo, video, index }) {
       <h1 className="appTitle">Generate Titles and Hashtags for Your Video</h1>
       <div className="videoFileUploadForm">
         <VideoFileUploadForm
-          setUploading={setSelectedFile}
           index={index}
           fetchVideo={fetchVideo}
           selectedFile={selectedFile}

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import TwelveLabsApi from "./TwelveLabsApi";
 import { Video } from "./Video";
 import LoadingSpinner from "./LoadingSpinner.svg";
+import sanitize from "sanitize-filename";
 
 /**
  * Receive user's video file, submit it to API, and show task status
@@ -23,12 +24,13 @@ export function VideoFileUploadForm({
   console.log("🚀 > VideoFileUploadForm > taskId=", taskId);
   const [task, setTask] = useState(null);
   console.log("🚀 > VideoFileUploadForm > task=", task);
+  const [inputValue, setInputValue] = useState("");
   const [isMonitoring, setIsMonitoring] = useState(false);
   console.log("🚀 > isMonitoring=", isMonitoring);
 
   /** Verify file type */
   function handleFileSelect(event) {
-    const userSelectedFile = event.target.files[0];
+    let userSelectedFile = event.target.files[0];
 
     if (userSelectedFile) {
       //TODO: check what are the types TL allow
@@ -45,9 +47,10 @@ export function VideoFileUploadForm({
 
       if (allowedVideoTypes.includes(userSelectedFile.type)) {
         setSelectedFile(userSelectedFile);
+        setInputValue(selectedFile.name);
       } else {
         alert("Please select a valid video file (e.g., MP4, MPEG, QuickTime).");
-        event.target.value = null;
+        setInputValue("");
       }
     }
   }
@@ -55,8 +58,8 @@ export function VideoFileUploadForm({
   /** Submit file to create a task */
   async function handleFileSubmit(event) {
     event.preventDefault();
-    setIsFileUploading(true);
     if (selectedFile) {
+      setIsFileUploading(true);
       try {
         const response = await TwelveLabsApi.uploadVideo(index, selectedFile);
         console.log("🚀 > handleFileSubmit > response=", response);
@@ -71,45 +74,41 @@ export function VideoFileUploadForm({
   async function getTaskDetails(taskId) {
     try {
       const response = await TwelveLabsApi.getTask(taskId);
-      setTask(response);
+      return response;
     } catch (error) {
       console.error("Get task details error:", error);
     }
   }
 
+  /** Get details on a task */
   useEffect(() => {
     const fetchData = async () => {
       if (taskId) {
-        await getTaskDetails(taskId);
+        const response = await getTaskDetails(taskId);
+        setTask(response);
         setIsMonitoring(true);
       }
     };
 
+    const checkStatus = async () => {
+      const response = await getTaskDetails(taskId);
+      setTask(response);
+      if (response.status === "ready" || response.status === "failed") {
+        setTaskId(null);
+        setTask(null);
+        setInputValue("");
+        setIsMonitoring(false);
+        setSelectedFile(null);
+        setIsFileUploading(false);
+        fetchVideo();
+      } else {
+        setTimeout(checkStatus, 10000);
+      }
+    };
+
+    fetchData();
     if (isMonitoring) {
-      const checkStatus = async () => {
-        const response = await TwelveLabsApi.getTask(taskId);
-        setTask(response);
-
-        if (response.status === "ready" || response.status === "failed") {
-          // If the status is "ready" and hasn't been displayed yet, set the flag
-          fetchVideo();
-          setSelectedFile(null);
-          setIsFileUploading(false);
-          setIsMonitoring(false);
-
-          // Stop monitoring when the task is completed or failed
-        } else {
-          // Continue monitoring every 10 seconds
-          setTimeout(checkStatus, 10000);
-        }
-      };
-
-      // Start the initial check and continue monitoring
-      fetchData();
       checkStatus();
-    } else if (taskId) {
-      // If not monitoring, fetch the task details initially
-      fetchData();
     }
   }, [taskId, isMonitoring]);
 
@@ -122,6 +121,7 @@ export function VideoFileUploadForm({
           type="file"
           onChange={handleFileSelect}
           accept="video/*"
+          value={inputValue} // Use inputValue for value
         ></input>
         <button className="videoFileUploadButton" disabled={isFileUploading}>
           Upload
@@ -130,7 +130,7 @@ export function VideoFileUploadForm({
       {selectedFile && (
         <div className="selectedFile">
           Selected File:{" "}
-          <span>{selectedFile ? selectedFile.name : "none"}</span>
+          <span>{selectedFile ? sanitize(selectedFile.name) : "none"}</span>
         </div>
       )}
       {isFileUploading && (
@@ -147,11 +147,13 @@ export function VideoFileUploadForm({
             Math.round(task.process.upload_percentage)}
         </div>
       )}
-      {isMonitoring && task && task.hls && (
-        <div className="taskVideo">
-          <Video url={task.hls.video_url} />
-        </div>
-      )}
+      {task &&
+        task.hls &&
+        (task.status !== "ready" || task.status !== "failed") && (
+          <div className="taskVideo">
+            <Video url={task.hls.video_url} />
+          </div>
+        )}
     </div>
   );
 }
