@@ -21,13 +21,19 @@ You can count on this app to whip up a snazzy topic, a catchy title, and some tr
 
 ## 🔑 Getting Started
 
-### Step 1. Generate API Key & Create an Index
+### Step 1. Clone the repo
+
+```sh
+   git clone git@github.com:mrnkim/Generate-Titles-and-Hashtags-for-Your-Video.git
+```
+
+### Step 2. Generate API Key & Create an Index
 
 1. Visit [Twelve Labs Playground](https://playground.twelvelabs.io/) to generate your API Key
    - Once you sign up, you'll receive complimentary credits allowing you to index up to 10 hours of video content!
 2. Check the current API Base URL at [Twelve Labs API Reference](https://docs.twelvelabs.io/reference/api-reference) and update the version as needed
 3. Create an index and save the index id (Visit [Twelve Labs Docs](https://docs.twelvelabs.io/docs/create-indexes) for details)
-4. Create `.env` file and store/update the values of API_URL, API_KEY, and INDEX_ID.
+4. Create `.env` file at the root level and store/update the values of API_URL, API_KEY, and INDEX_ID.
 
    ```
 
@@ -39,24 +45,17 @@ You can count on this app to whip up a snazzy topic, a catchy title, and some tr
 
    ```
 
-### Step 2. Start the App
+### Step 3. Start the App
 
-1. Clone the current repo
-   ```sh
-   git clone git@github.com:mrnkim/Generate-Titles-and-Hashtags-for-Your-Video.git
-   ```
-2. Install and start the client
-
-   ```sh
-   npm install
-   npm start
-   ```
+```sh
+npm install
+npm start
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🎯 What's Next?
 
-- Implement video upload feature
 - Add (or automate) test
 - Improve error handling and add data validations
 
