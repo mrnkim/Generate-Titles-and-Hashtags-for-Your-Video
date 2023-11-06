@@ -4,8 +4,8 @@ import "./Video.css";
 
 /** Shows a video
  *
- * App -> Video
- * App -> {VideoFileUploadForm} -> Video
+ * GenerateTitles -> Video
+ * GenerateTitles -> {VideoFileUploadForm} -> Video
  *
  */
 

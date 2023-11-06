@@ -90,6 +90,7 @@ export function InputForm({
     }
   }
 
+  /** Empty result */
   function reset() {
     setResult({
       types: [],

@@ -14,6 +14,7 @@ function App() {
   const [video, setVideo] = useState({ data: null, isLoading: true });
   const INDEX_ID = process.env.REACT_APP_INDEX_ID;
 
+  /** Fetch the first video of a given index */
   async function fetchVideo() {
     try {
       const response = await TwelveLabsApi.getFirstVideo(INDEX_ID);
