@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { GenerateTitles } from "./GenerateTitles";
 import TwelveLabsApi from "./TwelveLabsApi";
 
+/** Generate Titles and Hashtags App
+ *
+ * App -> GenerateTitles
+ *
+ */
+
 function App() {
   const [video, setVideo] = useState({ data: null, isLoading: true });
   const INDEX_ID = process.env.REACT_APP_INDEX_ID;

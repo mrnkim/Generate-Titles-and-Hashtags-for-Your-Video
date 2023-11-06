@@ -1,6 +1,12 @@
 import { React } from "react";
 import "./InputForm.css";
 
+/** Receive user's check prompt for the API call
+ *
+ * App -> GenerateTitles -> {InputForm}
+ *
+ */
+
 export function InputForm({
   field1Prompt,
   setField1Prompt,
@@ -17,6 +23,7 @@ export function InputForm({
   result,
   setResult,
 }) {
+  /** Toggle check for each prompt */
   function handleCheck(promptType) {
     switch (promptType) {
       case field1:
@@ -43,6 +50,7 @@ export function InputForm({
     setLoading(false);
   }
 
+  /** Combine user input and make an API call  */
   async function handleClick(event) {
     reset();
     event.preventDefault();
@@ -68,7 +76,6 @@ export function InputForm({
     }
 
     try {
-      // Make the gist API call
       if (types.length > 0) {
         const data = { types: types };
         const gistResponse = await generate(data);
@@ -131,14 +138,14 @@ export function InputForm({
               {field3}s
             </label>
           </div>
-          </div>
-          <button
-            className="generateButton"
-            onClick={handleClick}
-            disabled={loading}
-          >
-            Generate
-          </button>{" "}
+        </div>
+        <button
+          className="generateButton"
+          onClick={handleClick}
+          disabled={loading}
+        >
+          Generate
+        </button>{" "}
       </form>
     </div>
   );

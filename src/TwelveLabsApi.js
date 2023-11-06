@@ -5,9 +5,10 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 /** API Class
  *
- * Static class tying together methods used to get/send to to the API.
+ * Static class tying together methods used to get/send to to the Twelve Labs API
  *
  */
+
 class TwelveLabsApi {
   static headers = {
     "Content-Type": "application/json",
@@ -144,24 +145,6 @@ class TwelveLabsApi {
       console.error(error);
     }
   }
-
-  /** Checks status of a task (e.g., video upload task) */
-  // static async checkStatus(taskId) {
-  //   const config = {
-  //     method: "GET",
-  //     url: `${API_URL}/tasks/${taskId}`,
-  //     headers: {
-  //       ...this.headers,
-  //     },
-  //   };
-
-  //   try {
-  //     const response = await axios.request(config);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   /** Uploads a video with a given file */
   static async uploadVideo(indexId, videoFile) {

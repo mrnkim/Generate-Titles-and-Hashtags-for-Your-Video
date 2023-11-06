@@ -1,5 +1,11 @@
 import "./Result.css";
 
+/** Shows the results
+ *
+ * App -> GenerateTitles -> {Result}
+ *
+ */
+
 export function Result({ result }) {
   result = result.result;
   return (

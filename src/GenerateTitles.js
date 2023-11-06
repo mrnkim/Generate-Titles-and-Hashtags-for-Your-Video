@@ -6,6 +6,12 @@ import { Result } from "./Result";
 import "./GenerateTitles.css";
 import TwelveLabsApi from "./TwelveLabsApi";
 
+/** Generate Titles and Hashtags App
+ *
+ * App -> GenerateTitles -> {VideoFileUploadForm, Video, InputForm, Result}
+ *
+ */
+
 export function GenerateTitles({ fetchVideo, video, index }) {
   const [loading, setLoading] = useState(false);
   const [field1, field2, field3] = ["topic", "title", "hashtag"];
@@ -28,6 +34,7 @@ export function GenerateTitles({ fetchVideo, video, index }) {
   const [selectedFile, setSelectedFile] = useState(false);
   const [isFileUploading, setIsFileUploading] = useState(false);
 
+  /** Make API call to generate topic, titles, hashtags of a video  */
   function generate(data) {
     return TwelveLabsApi.generateGist(data, video.data._id);
   }
@@ -35,6 +42,7 @@ export function GenerateTitles({ fetchVideo, video, index }) {
   const vidTitleRaw = video?.data?.metadata.video_title;
   const vidTitleClean = decodeAndCleanFilename(vidTitleRaw);
 
+  /** Return clean video file name  */
   function decodeAndCleanFilename(filename) {
     const decodedFilename = decodeURIComponent(filename);
     const cleanedFilename = decodedFilename

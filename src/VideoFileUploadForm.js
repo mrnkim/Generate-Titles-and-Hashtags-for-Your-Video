@@ -5,10 +5,10 @@ import { Video } from "./Video";
 import LoadingSpinner from "./LoadingSpinner.svg";
 import sanitize from "sanitize-filename";
 
-/**
- * Receive user's video file, submit it to API, and show task status
+/** Receive user's video file, submit it to API, and show task status
  *
- * App -> GenerateTitles -> VideoFileUploadForm
+ * App -> GenerateTitles -> {VideoFileUploadForm} -> Video
+ *
  */
 
 export function VideoFileUploadForm({
@@ -75,17 +75,18 @@ export function VideoFileUploadForm({
     }
   }
 
-  /** Get details on a task */
   useEffect(() => {
-    const fetchData = async () => {
+    /** Initially get details on a task and initialize the monitoring  */
+    async function fetchData() {
       if (taskId) {
         const response = await getTaskDetails(taskId);
         setTask(response);
         setIsMonitoring(true);
       }
-    };
+    }
 
-    const checkStatus = async () => {
+    /** Check status of a task every 10,000 ms until the status is either ready or failed  */
+    async function checkStatus() {
       const response = await getTaskDetails(taskId);
       setTask(response);
       if (response.status === "ready" || response.status === "failed") {
@@ -99,7 +100,7 @@ export function VideoFileUploadForm({
       } else {
         setTimeout(checkStatus, 10000);
       }
-    };
+    }
 
     fetchData();
     if (isMonitoring) {
@@ -111,16 +112,6 @@ export function VideoFileUploadForm({
     <div className="videoFileUploadForm">
       <div className="title">Upload video</div>
       <form onSubmit={handleFileSubmit} className="form">
-        {/* <input
-          className="videoFileUploadInput"
-          type="file"
-          onChange={handleFileSelect}
-          accept="video/*"
-          value={inputValue} // Use inputValue for value
-        ></input>
-        <button className="videoFileUploadButton" disabled={isFileUploading}>
-          Upload
-        </button> */}
         <label htmlFor="fileUpload" className="selectYourVideo">
           Select Your Video
         </label>
