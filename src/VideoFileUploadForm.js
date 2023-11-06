@@ -92,7 +92,7 @@ export function VideoFileUploadForm({
 
     const checkStatus = async () => {
       const response = await getTaskDetails(taskId);
-      console.log("✨✨checkStatus runs!")
+      console.log("✨✨checkStatus runs!");
       setTask(response);
       if (response.status === "ready" || response.status === "failed") {
         setIsMonitoring(false);
@@ -117,7 +117,7 @@ export function VideoFileUploadForm({
     <div className="videoFileUploadForm">
       <div className="title">Upload video</div>
       <form onSubmit={handleFileSubmit} className="form">
-        <input
+        {/* <input
           className="videoFileUploadInput"
           type="file"
           onChange={handleFileSelect}
@@ -126,12 +126,32 @@ export function VideoFileUploadForm({
         ></input>
         <button className="videoFileUploadButton" disabled={isFileUploading}>
           Upload
+        </button> */}
+        <label htmlFor="fileUpload" className="selectYourVideo">
+          Select Your Video
+        </label>
+        <input
+          id="fileUpload"
+          className="videoFileUploadInput"
+          type="file"
+          style={{ display: "none" }}
+          onChange={handleFileSelect}
+          accept="video/*"
+        />
+        <button className="videoFileUploadButton" disabled={isFileUploading}>
+          Upload
         </button>
       </form>
       {selectedFile && (
         <div className="selectedFile">
-          Selected File:{" "}
-          <span>{selectedFile ? sanitize(selectedFile.name) : "none"}</span>
+          <span className="label">Selected File:</span>
+          <span className="selectedFileName">
+            {selectedFile ? (
+              <strong>{sanitize(selectedFile.name)}</strong>
+            ) : (
+              "none"
+            )}
+          </span>{" "}
         </div>
       )}
       {isFileUploading && (
