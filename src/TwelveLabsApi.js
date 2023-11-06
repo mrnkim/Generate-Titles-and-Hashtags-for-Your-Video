@@ -101,7 +101,6 @@ class TwelveLabsApi {
 
     try {
       const response = await axios.request(config);
-      console.log("🚀 > TwelveLabsApi > generateGist > response=", response);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -166,9 +165,6 @@ class TwelveLabsApi {
 
   /** Uploads a video with a given file */
   static async uploadVideo(indexId, videoFile) {
-    console.log("🚀 > TwelveLabsApi > uploadVideo > videoFile=", videoFile);
-    console.log("AT API!");
-
     const form = new FormData();
     form.append("language", "en");
     form.append("index_id", indexId);
@@ -185,10 +181,8 @@ class TwelveLabsApi {
       },
       data: form,
     };
-    console.log("🚀 > TwelveLabsApi > uploadVideo > config=", config);
     try {
       const response = await axios.request(config);
-      console.log("🚀 > TwelveLabsApi > uploadVideo > response=", response);
       return response.data;
     } catch (error) {
       console.error(error);

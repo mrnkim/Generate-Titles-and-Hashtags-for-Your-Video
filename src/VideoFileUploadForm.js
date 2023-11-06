@@ -8,7 +8,7 @@ import sanitize from "sanitize-filename";
 /**
  * Receive user's video file, submit it to API, and show task status
  *
- * App -> PrepareUpload -> VideoFileUploadForm
+ * App -> GenerateTitles -> VideoFileUploadForm
  */
 
 export function VideoFileUploadForm({
@@ -19,14 +19,10 @@ export function VideoFileUploadForm({
   isFileUploading,
   setIsFileUploading,
 }) {
-  console.log("🚀 > selectedFile=", selectedFile);
   const [taskId, setTaskId] = useState(null);
-  console.log("🚀 > VideoFileUploadForm > taskId=", taskId);
   const [task, setTask] = useState(null);
-  console.log("🚀 > VideoFileUploadForm > task=", task);
   const [inputValue, setInputValue] = useState("");
   const [isMonitoring, setIsMonitoring] = useState(false);
-  console.log("🚀 > isMonitoring=", isMonitoring);
 
   /** Verify file type */
   function handleFileSelect(event) {
@@ -62,7 +58,6 @@ export function VideoFileUploadForm({
       setIsFileUploading(true);
       try {
         const response = await TwelveLabsApi.uploadVideo(index, selectedFile);
-        console.log("🚀 > handleFileSubmit > response=", response);
         setTaskId(response._id);
       } catch (error) {
         console.error("Video upload error:", error);
@@ -92,7 +87,6 @@ export function VideoFileUploadForm({
 
     const checkStatus = async () => {
       const response = await getTaskDetails(taskId);
-      console.log("✨✨checkStatus runs!");
       setTask(response);
       if (response.status === "ready" || response.status === "failed") {
         setIsMonitoring(false);

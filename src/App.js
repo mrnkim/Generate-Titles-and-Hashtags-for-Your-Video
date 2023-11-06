@@ -1,12 +1,11 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 
-import { PrepareUpload } from "./PrepareUpload";
+import { GenerateTitles } from "./GenerateTitles";
 import TwelveLabsApi from "./TwelveLabsApi";
 
 function App() {
   const [video, setVideo] = useState({ data: null, isLoading: true });
-  console.log("🚀 > App > video=", video)
   const INDEX_ID = process.env.REACT_APP_INDEX_ID;
 
   async function fetchVideo() {
@@ -35,7 +34,7 @@ function App() {
 
   return (
     <div className="app">
-      <PrepareUpload video={video} index={INDEX_ID} fetchVideo={fetchVideo} />
+      <GenerateTitles video={video} index={INDEX_ID} fetchVideo={fetchVideo} />
     </div>
   );
 }

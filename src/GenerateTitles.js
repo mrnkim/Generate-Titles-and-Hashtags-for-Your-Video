@@ -3,10 +3,10 @@ import { Video } from "./Video";
 import { InputForm } from "./InputForm";
 import { VideoFileUploadForm } from "./VideoFileUploadForm";
 import { Result } from "./Result";
-import "./PrepareUpload.css";
+import "./GenerateTitles.css";
 import TwelveLabsApi from "./TwelveLabsApi";
 
-export function PrepareUpload({ fetchVideo, video, index }) {
+export function GenerateTitles({ fetchVideo, video, index }) {
   const [loading, setLoading] = useState(false);
   const [field1, field2, field3] = ["topic", "title", "hashtag"];
   const [field1Prompt, setField1Prompt] = useState({
@@ -28,8 +28,6 @@ export function PrepareUpload({ fetchVideo, video, index }) {
   const [selectedFile, setSelectedFile] = useState(false);
   const [isFileUploading, setIsFileUploading] = useState(false);
 
-  console.log("🚀 > PrepareUpload > result=", result);
-
   function generate(data) {
     return TwelveLabsApi.generateGist(data, video.data._id);
   }
@@ -46,7 +44,7 @@ export function PrepareUpload({ fetchVideo, video, index }) {
   }
 
   return (
-    <div className="prepareUpload">
+    <div className="generateTitles">
       <h1 className="appTitle">Generate Titles and Hashtags for Your Video</h1>
       <div className="videoFileUploadForm">
         <VideoFileUploadForm
